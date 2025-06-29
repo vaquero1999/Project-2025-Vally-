@@ -1,1 +1,237 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valley Sanitation & Rentals Staff Portal</title>
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #FF0000;
+            --text-color: #FFFFFF;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .main-content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .portal-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .portal-btn {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .portal-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .login-section {
+            margin-top: 40px;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .chatbot-header {
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .chatbot-messages {
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #333;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background-color: #222;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .chatbot-input button {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+    
+    <header>
+        <h1 id="welcome-text">Welcome to Valley Sanitation & Rentals Staff Portal</h1>
+    </header>
+    
+    <div class="main-content">
+        <h2 id="portal-text">Please select your department or create an account</h2>
+        
+        <div class="portal-options">
+            <button class="portal-btn" id="office-btn">Office</button>
+            <button class="portal-btn" id="shop-btn">Shop</button>
+        </div>
+        
+        <div class="login-section">
+            <h3 id="account-text">Create Account</h3>
+            <form id="signup-form">
+                <input type="text" placeholder="Full Name" required><br><br>
+                <input type="email" placeholder="Email" required><br><br>
+                <input type="password" placeholder="Password" required><br><br>
+                <select required>
+                    <option value="">Select Department</option>
+                    <option value="office">Office</option>
+                    <option value="shop">Shop</option>
+                </select><br><br>
+                <button type="submit" class="portal-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="chatbot">
+        <div class="chatbot-header">
+            <h3>Juan Navarro (Assistant)</h3>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <p>Hello! How can I help you today?</p>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type your question...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        // Language switching functionality
+        document.getElementById('language-select').addEventListener('change', function() {
+            const language = this.value;
+            if (language === 'es') {
+                document.getElementById('welcome-text').textContent = 'Bienvenido al Portal de Personal de Valley Sanitation & Rentals';
+                document.getElementById('portal-text').textContent = 'Por favor seleccione su departamento o cree una cuenta';
+                document.getElementById('account-text').textContent = 'Crear Cuenta';
+                document.getElementById('office-btn').textContent = 'Oficina';
+                document.getElementById('shop-btn').textContent = 'Taller';
+                document.getElementById('chatbot-input').placeholder = 'Escriba su pregunta...';
+                document.querySelector('.chatbot-messages p').textContent = '¡Hola! ¿Cómo puedo ayudarte hoy?';
+            } else {
+                document.getElementById('welcome-text').textContent = 'Welcome to Valley Sanitation & Rentals Staff Portal';
+                document.getElementById('portal-text').textContent = 'Please select your department or create an account';
+                document.getElementById('account-text').textContent = 'Create Account';
+                document.getElementById('office-btn').textContent = 'Office';
+                document.getElementById('shop-btn').textContent = 'Shop';
+                document.getElementById('chatbot-input').placeholder = 'Type your question...';
+                document.querySelector('.chatbot-messages p').textContent = 'Hello! How can I help you today?';
+            }
+        });
+        
+        // Simple chatbot functionality
+        document.getElementById('chatbot-send').addEventListener('click', function() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messagesDiv = document.getElementById('chatbot-messages');
+                messagesDiv.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+                
+                // Simple responses
+                let response = "I'm sorry, I can't answer that yet. Please contact your supervisor.";
+                
+                if (message.toLowerCase().includes('delivery')) {
+                    response = "The next delivery is scheduled for tomorrow at 10 AM.";
+                } else if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+                    response = "Standard portable restroom rental is $150/week. Deluxe units are $250/week.";
+                } else if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
+                    response = "Hello! How can I help you today?";
+                }
+                
+                messagesDiv.innerHTML += `<p><strong>Juan Navarro:</strong> ${response}</p>`;
+                input.value = '';
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        });
+        
+        // Form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Account created successfully! You will be redirected to your department portal.');
+            // In a real implementation, this would redirect to the appropriate portal
+        });
+        
+        // Portal buttons
+        document.getElementById('office-btn').addEventListener('click', function() {
+            alert('Redirecting to Office Portal');
+            // window.location.href = 'office.html';
+        });
+        
+        document.getElementById('shop-btn').addEventListener('click', function() {
+            alert('Redirecting to Shop Portal');
+            // window.location.href = 'shop.html';
+        });
+    </script>
+</body>
+</html>

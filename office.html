@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Portal | Valley Sanitation</title>
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #FF0000;
+            --text-color: #FFFFFF;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .customer-form {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .chatbot-header {
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .chatbot-messages {
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #333;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background-color: #222;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .chatbot-input button {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Office Portal</h1>
+        <button class="logout-btn">Logout</button>
+    </header>
+    
+    <div class="main-content">
+        <h2>New Customer Information</h2>
+        
+        <form class="customer-form" id="customer-form">
+            <div class="form-group">
+                <label for="customer-name">Customer Name</label>
+                <input type="text" id="customer-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-phone">Phone Number</label>
+                <input type="tel" id="customer-phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-email">Email</label>
+                <input type="email" id="customer-email">
+            </div>
+            
+            <div class="form-group">
+                <label for="service-type">Service Type</label>
+                <select id="service-type" required>
+                    <option value="">Select Service</option>
+                    <option value="standard">Standard Portable Restroom</option>
+                    <option value="deluxe">Deluxe Portable Restroom</option>
+                    <option value="handwashing">Handwashing Station</option>
+                    <option value="event">Event Package</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery-date">Delivery Date</label>
+                <input type="date" id="delivery-date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery-address">Delivery Address</label>
+                <textarea id="delivery-address" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="special-notes">Special Notes</label>
+                <textarea id="special-notes" rows="2"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Save Customer</button>
+        </form>
+    </div>
+    
+    <div class="chatbot">
+        <div class="chatbot-header">
+            <h3>Juan Navarro (Office Assistant)</h3>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <p>Hello! How can I help you with customer information today?</p>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type your question...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        // Chatbot functionality
+        document.getElementById('chatbot-send').addEventListener('click', function() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messagesDiv = document.getElementById('chatbot-messages');
+                messagesDiv.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+                
+                // Office-specific responses
+                let response = "I'm sorry, I can't answer that yet. Please contact your supervisor.";
+                
+                if (message.toLowerCase().includes('delivery')) {
+                    response = "The next available delivery slot is tomorrow at 1 PM.";
+                } else if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
+                    response = "Standard restroom: $150/week. Deluxe: $250/week. Handwashing station: $75/week.";
+                } else if (message.toLowerCase().includes('customer')) {
+                    response = "You can enter new customer information in the form above.";
+                } else if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
+                    response = "Hello! How can I help with customer information today?";
+                }
+                
+                messagesDiv.innerHTML += `<p><strong>Juan Navarro:</strong> ${response}</p>`;
+                input.value = '';
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        });
+        
+        // Form submission
+        document.getElementById('customer-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Customer information saved successfully!');
+            // In a real implementation, this would save to a database
+            this.reset();
+        });
+        
+        // Logout button
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -222,13 +222,14 @@
             // In a real implementation, this would redirect to the appropriate portal
         });
         
-        // Portal buttons
-        document.getElementById('office-btn').addEventListener('click', function() {
-            alert('Redirecting to Office Portal');
-            // window.location.href = 'office.html';
-        });
-        
-        document.getElementById('shop-btn').addEventListener('click', function() {
+        // Portal buttons - WORKING VERSION
+document.getElementById('office-btn').addEventListener('click', function() {
+    window.location.href = 'office.html';
+});
+
+document.getElementById('shop-btn').addEventListener('click', function() {
+    window.location.href = 'shop.html';
+});        document.getElementById('shop-btn').addEventListener('click', function() {
             alert('Redirecting to Shop Portal');
             // window.location.href = 'shop.html';
         });
